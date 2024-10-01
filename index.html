@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #fd9ed0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        #ready-button, .answer-button, #done-button, #continue-button, #finished-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Lexend', sans-serif;
+        }
+
+        #loading, #no-loading, #fourth-act, #yes-content, #final-message, #last-loading, #last-text {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #final-content, #third-act, #fifth-act {
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 90%;
+        }
+
+        #final-content img, #no-loading img, #fourth-act img, #yes-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #final-content p, #no-loading p, #third-act p, #fourth-act p, #fifth-act p, #yes-content p, #final-message p, #last-text p {
+            font-size: 24px;
+            color: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .fade-out {
+            animation: fadeOut 1s;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .answer-buttons {
+            margin-top: 20px;
+        }
+
+        #third-act .answer-buttons {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #third-act-text {
+            transition: opacity 1s ease-in-out;
+        }
+
+        #no-more-no {
+            color: black;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #last-text {
+            font-size: 36px;
+            color: black;
+            text-align: center;
+        }
+
+        #letter-content {
+            width: 100%;
+            max-width: 90%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .letter {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .letter p {
+            margin-bottom: 20px;
+        }
+
+        #finished-button {
+            margin-top: 20px;
+        }
+
+        #outro-text {
+            font-size: 24px;
+            color: black;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #outro-subtext {
+            font-size: 18px;
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="ready-button">Ready?</button>
+        <div id="loading">
+            <div class="loader"></div>
+        </div>
+        <div id="final-content">
+            <img src="https://media.tenor.com/O1Zk8YvgJ-EAAAAi/peach-goma-peach.gif" alt="Cute Valentine's Day GIF">
+            <p>Serás mi San Valentín?</p>
+            <div class="answer-buttons">
+                <button class="answer-button" id="yes-button">Yes</button>
+                <button class="answer-button" id="no-button">No</button>
+            </div>
+        </div>
+        <div id="no-loading">
+            <img src="https://media.tenor.com/NXoECAygczgAAAAi/angry-cat-cat.gif" alt="Angry Cat GIF">
+            <div class="loader"></div>
+            <p id="no-text">wait for ten minutes. hmph.</p>
+        </div>
+        <div id="third-act">
+            <p id="third-act-text">let's try this again</p>
+            <div class="answer-buttons">
+                <button class="answer-button" id="third-yes-button">Yes</button>
+                <button class="answer-button" id="third-no-button">No</button>
+            </div>
+        </div>
+        <div id="fourth-act">
+            <img src="https://media.tenor.com/0nb_g8Y5NzQAAAAi/milk-and-mocha-cute.gif" alt="Milk and Mocha GIF">
+            <div class="loader"></div>
+            <p>ure mean. say yes alrdyyy</p>
+        </div>
+        <div id="fifth-act">
+            <p>be my valentine. pleaseeee?</p>
+            <div class="answer-buttons">
+                <button class="answer-button" id="fifth-yes-button">Yes</button>
+                <button class="answer-button" id="fifth-no-button">No</button>
+            </div>
+            <p id="no-more-no">no more no. i disabled it.</p>
+        </div>
+        <div id="yes-content">
+            <img src="https://media.tenor.com/hpgCwxnBaK8AAAAi/milk-and-mocha.gif" alt="Milk and Mocha Love GIF">
+            <p>YAAAAAAAAAAY I LOVE YOUUUUU</p>
+            <button id="done-button" style="display: none;">done</button>
+        </div>
+        <div id="final-message">
+            <p>okay, exit this page now. theres nth more 😝</p>
+        </div>
+        <div id="last-loading">
+            <div class="loader"></div>
+        </div>
+        <div id="last-text"></div>
+        <button id="continue-button" style="display: none;">Continue</button>
+        <div id="letter-content" style="display: none;">
+            <div class="letter">
+                <p>Dear ssob,</p>
+                <p>happy valentines day, loveeeee. we cant do much tgt this years valentines butttt, wait a few more months nd well be able to do everything tgt. im sorry i cant fly out rn to spend valentines day w u, i badly wanna buy u flowers nd chocolates nd stuffed toys eughgh. anw, i js wanna say thank u for choosing to take me back despite all the problems, thank u for staying. rmb, i love u lots, always. hv a good day tday, but not too good bcz its not w me LMAOAOAOAOOO. thats all i wanna say. I LOVE YOUUUUUU</p>
+                <p>Sincerely,</p>
+                <p>cj</p>
+            </div>
+        </div>
+        <button id="finished-button" style="display: none;">finished</button>
+        <div id="outro-text" style="display: none;"></div>
+        <div id="outro-subtext" style="display: none;"></div>
+    </div>
+    <script>
+        const readyButton = document.getElementById('ready-button');
+        const loading = document.getElementById('loading');
+        const finalContent = document.getElementById('final-content');
+        const noLoading = document.getElementById('no-loading');
+        const thirdAct = document.getElementById('third-act');
+        const noText = document.getElementById('no-text');
+        const thirdActText = document.getElementById('third-act-text');
+        const thirdActButtons = thirdAct.querySelector('.answer-buttons');
+        const fourthAct = document.getElementById('fourth-act');
+        const fifthAct = document.getElementById('fifth-act');
+        const yesContent = document.getElementById('yes-content');
+        const doneButton = document.getElementById('done-button');
+        const finalMessage = document.getElementById('final-message');
+        const lastLoading = document.getElementById('last-loading');
+        const lastText = document.getElementById('last-text');
+        const continueButton = document.getElementById('continue-button');
+        const letterContent = document.getElementById('letter-content');
+        const finishedButton = document.getElementById('finished-button');
+        const outroText = document.getElementById('outro-text');
+        const outroSubtext = document.getElementById('outro-subtext');
+
+        readyButton.addEventListener('click', () => {
+            readyButton.classList.add('fade-out');
+            setTimeout(() => {
+                readyButton.style.display = 'none';
+                loading.style.display = 'flex';
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    finalContent.style.display = 'block';
+                }, 3000);
+            }, 1000);
+        });
+
+        document.getElementById('no-button').addEventListener('click', () => {
+            finalContent.classList.add('fade-out');
+            setTimeout(() => {
+                finalContent.style.display = 'none';
+                noLoading.style.display = 'flex';
+                setTimeout(() => {
+                    noText.textContent = 'nevermind.';
+                    setTimeout(() => {
+                        noLoading.classList.add('fade-out');
+                        setTimeout(() => {
+                            noLoading.style.display = 'none';
+                            thirdAct.style.display = 'block';
+                            thirdAct.classList.add('fade-in');
+                            setTimeout(() => {
+                                thirdActText.style.opacity = '0';
+                                setTimeout(() => {
+                                    thirdActText.textContent = 'will you be my valentine?';
+                                    thirdActText.style.opacity = '1';
+                                    setTimeout(() => {
+                                        thirdActButtons.style.opacity = '1';
+                                    }, 500);
+                                }, 1000);
+                            }, 2000);
+                        }, 1000);
+                    }, 3000);
+                }, 3000);
+            }, 1000);
+        });
+
+        document.getElementById('third-no-button').addEventListener('click', () => {
+            thirdAct.classList.add('fade-out');
+            setTimeout(() => {
+                thirdAct.style.display = 'none';
+                fourthAct.style.display = 'flex';
+                fourthAct.classList.add('fade-in');
+                setTimeout(() => {
+                    fourthAct.classList.add('fade-out');
+                    setTimeout(() => {
+                        fourthAct.style.display = 'none';
+                        fifthAct.style.display = 'block';
+                        fifthAct.classList.add('fade-in');
+                    }, 1000);
+                }, 2000);
+            }, 1000);
+        });
+
+        document.getElementById('fifth-no-button').addEventListener('click', function() {
+            this.style.backgroundColor = '#cccccc';
+            this.style.cursor = 'not-allowed';
+            document.getElementById('no-more-no').style.display = 'block';
+        });
+
+        function showYesContent() {
+            const currentContent = document.querySelector('div[style*="display: block"], div[style*="display: flex"]');
+            if (currentContent) {
+                currentContent.style.display = 'none';
+            }
+            yesContent.style.display = 'flex';
+            yesContent.classList.add('fade-in');
+            setTimeout(() => {
+                doneButton.style.display = 'block';
+                doneButton.classList.add('fade-in');
+            }, 2000);
+        }
+
+        document.getElementById('yes-button').addEventListener('click', showYesContent);
+        document.getElementById('third-yes-button').addEventListener('click', showYesContent);
+        document.getElementById('fifth-yes-button').addEventListener('click', showYesContent);
+
+        doneButton.addEventListener('click', () => {
+            yesContent.classList.add('fade-out');
+            setTimeout(() => {
+                yesContent.style.display = 'none';
+                finalMessage.style.display = 'flex';
+                finalMessage.classList.add('fade-in');
+                setTimeout(() => {
+                    finalMessage.classList.add('fade-out');
+                    setTimeout(() => {
+                        finalMessage.style.display = 'none';
+                        lastLoading.style.display = 'flex';
+                        lastLoading.classList.add('fade-in');
+                        setTimeout(() => {
+                            lastLoading.classList.add('fade-out');
+                            setTimeout(() => {
+                                lastLoading.style.display = 'none';
+                                lastText.style.display = 'flex';
+                                lastText.innerHTML = '<p>haha, u thought?</p>';
+                                lastText.classList.add('fade-in');
+                                setTimeout(() => {
+                                    lastText.classList.add('fade-out');
+                                    setTimeout(() => {
+                                        lastText.innerHTML = '<p>i have a letter for u</p>';
+                                        lastText.classList.remove('fade-out');
+                                        lastText.classList.add('fade-in');
+                                        setTimeout(() => {
+                                            lastText.classList.add('fade-out');
+                                            setTimeout(() => {
+                                                lastText.style.display = 'none';
+                                                continueButton.style.display = 'block';
+                                                continueButton.classList.add('fade-in');
+                                            }, 1000);
+                                        }, 1000);
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 3000);
+                    }, 1000);
+                }, 5000);
+            }, 1000);
+        });
+
+        continueButton.addEventListener('click', () => {
+            continueButton.style.display = 'none';
+            lastLoading.style.display = 'flex';
+            lastLoading.classList.add('fade-in');
+            setTimeout(() => {
+                lastLoading.classList.add('fade-out');
+                setTimeout(() => {
+                    lastLoading.style.display = 'none';
+                    letterContent.style.display = 'block';
+                    letterContent.classList.add('fade-in');
+                    finishedButton.style.display = 'block';
+                }, 1000);
+            }, 3000);
+        });
+
+        finishedButton.addEventListener('click', () => {
+            letterContent.classList.add('fade-out');
+            finishedButton.classList.add('fade-out');
+            setTimeout(() => {
+                letterContent.style.display = 'none';
+                finishedButton.style.display = 'none';
+                document.body.style.backgroundColor = '#fd9ed0';
+                lastLoading.style.display = 'flex';
+                lastLoading.classList.add('fade-in');
+                setTimeout(() => {
+                    lastLoading.style.display = 'none';
+                    outroText.style.display = 'block';
+                    outroText.innerHTML = 'okay, this time its done now. srsly. HAPPY VALENTINES DAY LOVEEEEEEEEE';
+                    outroText.classList.add('fade-in');
+                    outroSubtext.style.display = 'block';
+                    outroSubtext.innerHTML = '(okay, come text me now. i miss u. 😓)';
+                    outroSubtext.classList.add('fade-in');
+                }, 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
